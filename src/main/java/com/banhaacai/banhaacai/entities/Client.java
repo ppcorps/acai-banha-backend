@@ -2,6 +2,9 @@ package com.banhaacai.banhaacai.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name= "tb_Client" )
 public class Client {
@@ -11,6 +14,9 @@ public class Client {
     private Long id;
     private String name;
     private String telephone;
+
+    @OneToMany(mappedBy = "client" )
+    private List<Order> orders = new ArrayList<Order>();
 
     public Client() {
     }
@@ -43,5 +49,9 @@ public class Client {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
     }
 }
