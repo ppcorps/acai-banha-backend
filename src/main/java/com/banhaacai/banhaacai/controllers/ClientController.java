@@ -3,6 +3,8 @@ package com.banhaacai.banhaacai.controllers;
 import com.banhaacai.banhaacai.dto.ClientDTO;
 import com.banhaacai.banhaacai.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +22,12 @@ public class ClientController {
     }
 
     @GetMapping
-    public List<ClientDTO> findAll() {
-        return service.findAll();
+    public Page<ClientDTO> findAll(Pageable pageable) {
+        return service.findAll(pageable);
+    }
+    @PostMapping
+    public ClientDTO insert (@RequestBody ClientDTO dto) {
+        return service.insert(dto);
     }
 
 }
