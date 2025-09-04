@@ -20,25 +20,42 @@ public class ClientService {
     @Autowired
     private ClientRepository repository;
 
-    @Transactional(readOnly = true )
+    @Transactional(readOnly = true)
     public ClientDTO findById(long id) {
         Client client = repository.findById(id).get();
         return new ClientDTO(client);
     }
 
-    @Transactional(readOnly = true )
+    @Transactional(readOnly = true)
     public Page<ClientDTO> findAll(Pageable pageable) {
         Page<Client> result = repository.findAll(pageable);
         return result.map(x -> new ClientDTO(x));
     }
+
     @Transactional
     public ClientDTO insert(ClientDTO dto) {
-       Client entity = new Client();
+        Client entity = new Client();
+        copyDtoToEntity(dto, entity);
+        entity = repository.save(entity);
+        return new ClientDTO(entity);
+    }
 
-       entity.setName(dto.getName());
-       entity.setTelephone(dto.getTelephone());
+    @Transactional
+    public ClientDTO update(Long id, ClientDTO dto) {
+        Client entity = repository.getReferenceById(id);
+        copyDtoToEntity(dto, entity);
+        return new ClientDTO(entity);
+    }
 
-       entity=repository.save(entity);
-       return new ClientDTO(entity);
+    @Transactional
+    public void delete(long id) {
+        repository.deleteById(id);
+    }
+
+
+    private void copyDtoToEntity(ClientDTO dto, Client entity) {
+        entity.setName(dto.getName());
+        entity.setTelephone(dto.getTelephone());
+        entity = repository.save(entity);
     }
 }
