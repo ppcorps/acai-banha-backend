@@ -1,7 +1,6 @@
 package com.banhaacai.banhaacai.entities;
 
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import java.time.Instant;
 import java.util.Objects;
